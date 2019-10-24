@@ -1,0 +1,3 @@
+
+@include('regulator.layout.mainsidebar')
+
