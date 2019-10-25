@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Transaction;
+use App\Works\RedisQuery;
+use DB;
+use Session;
+
 
 class ActorsController extends Controller
 {
@@ -17,42 +21,53 @@ class ActorsController extends Controller
       return redirect('/actors/login');
     }
 
+    public function authuser($r){
+        $checkuser = DB::where('email',$r->username)->orWhere('phoneno',$r->username)->first();
+       if($checkuser !== null){
+         if (Hash::check($r->password, $checkuser->password)) {
+           Session::put('outh',$checkuser);
+             return ['status'=>'success','user'=>$checkuser];
+            }else{
+             return ['status'=>'error'];
+            }
+         
+       }else{
+         return ['status'=>'error'];
+       }
+       //Session::put('evaluation','true');
+       //return redirect('');
+     }
+
     public function authenticate(Request $r){
         $response = ['status'=>'error'];
         switch($r->actortype){
             case 'Grower':
-            // perform authenication
-            if(true){
+            if($this->authuser($r)['status']=='success'){
                 $response = ['status'=>'success','responseurl'=>url('/farmers/home')];
             }
             break;
             case 'Packer':
-            // perform authentication
-            if(true){
+            if($this->authuser($r)['status']=='success'){
                 $response = ['status'=>'success','responseurl'=>url('/packer/home')];
             }
             break;
             case 'Distributor':
-            if(true){
+            if($this->authuser($r)['status']=='success'){
                 $response = ['status'=>'success','responseurl'=>url('/packer/home')];
             }
             break;
             case 'Manufacturer':
-            // perform authentication
-            if(true){
+            if($this->authuser($r)['status']=='success'){
                 $response = ['status'=>'success','responseurl'=>url('/manufacturer/home')];
             }
             break;
             case 'Retail Store':
-            // perform authentication
-            if(true){
+            if($this->authuser($r)['status']=='success'){
                 $response = ['status'=>'success','responseurl'=>url('/retailstore/home')];
             }
             break;
-            // perform authentication
             case 'Food Service Operator':
-            // perform authentication
-            if(true){
+            if($this->authuser($r)['status']=='success'){
                 $response = ['status'=>'success','responseurl'=>url('/foodservice/home')];
             }
             break;
@@ -70,6 +85,11 @@ class ActorsController extends Controller
         }else{
             return ['status'=>'error'];
         }
+    }
+
+    public function updatetransactions(Request $r){
+      $update = Transaction::where('id',$r->idtoupdate)->update($r->except(['_token','idtoupdate']));
+      return ['status'=>'success'];
     }
 
     public function getpendingtransactions($bin=null){

@@ -14,6 +14,7 @@ Route::get('actors/login','ActorsController@login');
 Route::get('actors/logout','ActorsController@logout');
 Route::post('actors/authenticate','ActorsController@authenticate');
 Route::post('actors/recordtransactions','ActorsController@recordtransactions');
+Route::post('actors/updatetransactions','ActorsController@updatetransactions');
 Route::get('actors/getpendingtransactions/{bin}','ActorsController@getpendingtransactions');
 
 Route::group(['prefix'=>'farmers'],function(){
@@ -54,6 +55,11 @@ Route::group(['prefix'=>'packer'],function(){
     Route::get('/profile','PackerController@profile');
     Route::get('/receiveproduct','PackerController@receiveproduct');
     Route::get('/transactions','PackerController@transactions');
+
+    Route::get('/createcustomers','PackerController@createcustomers');
+    Route::get('/listcustomers','PackerController@listcustomers');
+    Route::get('/createproducts','PackerController@createproducts');
+    Route::get('/createsuppliers','PackerController@createsuppliers');
 });
 
 Route::group(['prefix'=>'retailstore'],function(){

@@ -24,6 +24,13 @@
                                 <p>Use the form below to add inputs</p>
                             </div>
                             <form class="form" id="{{ isset($data) ? 'updatefarminput' : 'farminputform'}}">
+                                    <input type="hidden" name='customerbin' value="A">
+                                    <input type="hidden" name='customername' value="B">
+                                    <input type="hidden" name='customercontact' value="C">
+                                    <input type="hidden" name='customeraddress' value="D">
+                                    <input type="hidden" name='customeremail' value="E">
+                                    <input type="hidden" name='customertype' value="F">
+                                    <input type="hidden" name='approvedbycustomer' value="1">
                                 {{csrf_field()}}
                                 <input type="hidden" name="idtoupdate" value="{{isset($data) ? $data->id : ''}}">
                                 <div class="form-body">
@@ -55,6 +62,29 @@
                                                 <input type="text" id="supplieraddress" class="form-control" name="supplieraddress" value="{{isset($data) ? $data->supplieraddress : ''}}">
                                             </div>
                                         </div>
+
+                                        <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="supplieremail">Supplier Email</label>
+                                                    <input type="text" id="supplieremail" class="form-control" name="supplieremail">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="suppliertype">Supplier Type</label>
+                                                        <select id="suppliertype" class="form-control" name="suppliertype">
+                                                                <option value="">Please select</option>
+                                                                <option value="Grower">I am Grower/Farmer</option>
+                                                                <option value="Packer">I am Produce Packer/Re-packer</option>
+                                                                <option value="Distributor">I am Distributor/Trader</option>
+                                                                <option value="Manufacturer">I am Manufacturer/Processor</option>
+                                                                <option value="Retail Store">I am Retail Store</option>
+                                                                <option value="Food Service Operator">I am Food Service Operator</option>
+                                                                <option value="Supplier of farm inputs">Supplier of farm inputs</option>
+                                                                <option value="Livestock Producer">Livestock Producer</option></select>
+                                                    </div>
+                                                </div>
                                     </div>
     
                                     <h4 class="form-section">Product Information</h4>
@@ -188,7 +218,7 @@
     $('#farminputform').submit(function(e){
         e.preventDefault();
         $('#loadinggif').show();
-        $.post('{{url('farmers/savefarminputs')}}',$(this).serialize(),function(response){
+        $.post('{{url('actors/recordtransactions')}}',$(this).serialize(),function(response){
             $('#loadinggif').hide(); 
           if(response.status==='success'){
             swal("Success",'Your farm Inputs has been successfully saved','success');
@@ -223,4 +253,6 @@
     $('input, textarea').attr('readonly','readonly');
     @endif
 </script>
+
+
 @endsection

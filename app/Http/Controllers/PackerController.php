@@ -22,4 +22,16 @@ class PackerController extends Controller
       public function transactions(){
         return view('packer.transactions');
       }
+
+      public function createcustomers(){
+        return view('packer.createcustomers');
+      }
+      
+      public function createproducts(){
+        return  view('packer.createproducts');
+      }
+
+      public function createsuppliers(){
+         return view('packer.createsuppliers');
+      }
 }
