@@ -10,6 +10,14 @@
         <li class=" nav-item"><a href="{{url('/distributor/new-order')}}"><i class="ft-menu"></i><span data-i18n="" class="menu-title">NEW ORDER</span></a>
         </li>
         <li class=" nav-item"><a href="{{url('/distributor/re-call')}}"><i class="ft-menu"></i><span data-i18n="" class="menu-title">RE-CALL</span></a>
+          
+        </li>
+        <li class=" nav-item"><a href="#"><i class="ft-list"></i><span data-i18n="" class="menu-title">MY PRODUCTS</span><span class="badge badge badge-primary badge-pill float-right mr-2"></span></a>
+          <ul class="menu-content">
+          <li><a href="{{url('distributor/addproduct')}}" class="menu-item"> Add New</a></li>
+            <li> <a href="{{url('distributor/productlist')}}" class="menu-item">Product List</a></li>
+            </li>
+          </ul>
         </li>
         {{-- <li class=" nav-item"><a href="{{url('/distributor/new-transaction')}}"><i class="ft-menu"></i><span data-i18n="" class="menu-title">NEW TRANSACTION</span></a>
         </li> --}}

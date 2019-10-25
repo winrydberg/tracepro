@@ -18,6 +18,7 @@ Route::post('actors/updatetransactions','ActorsController@updatetransactions');
 Route::get('actors/getpendingtransactions/{bin}','ActorsController@getpendingtransactions');
 
 
+
 Route::group(['prefix'=>'farmers'],function(){
     Route::get('/home','FarmersController@home');
 
@@ -41,6 +42,13 @@ Route::group(['prefix'=>'farmers'],function(){
 
     Route::get('/profile','FarmersController@profile');
     Route::get('/transactions','FarmersController@transactions');
+    Route::get('/transactions','FarmersController@transactions');
+    Route::post('/addproduct', 'FarmersController@saveProducts');
+    Route::get('/addproduct', 'FarmersController@newproducts');
+    Route::get('/productlist', 'FarmersController@getProducts');
+
+
+
 });
 
 Route::group(['prefix'=>'foodservice'],function(){
@@ -84,7 +92,7 @@ Route::group(['prefix'=>'manufacturer'],function(){
 Route::get('regulator/login', 'Regulators\RegulatoryController@login')->name('login');
 Route::post('regulator/login', 'Regulators\RegulatoryController@loginAdmin');
 
-Route::group(['middleware' => ['auth:regulator']], function () {
+// Route::group(['middleware' => ['auth:regulator']], function () {
     Route::get('regulator/dashboard', 'Regulators\RegulatoryController@index');
     Route::get('regulator/new-actor', 'Regulators\RegulatoryController@newActor');
     Route::post('regulator/new-actor', 'Regulators\RegulatoryController@registerActor');
@@ -96,7 +104,7 @@ Route::group(['middleware' => ['auth:regulator']], function () {
     Route::get('actor/reset-password', 'Regulators\RegulatoryController@resetPassword');
     Route::post('actor/reset-password', 'Regulators\RegulatoryController@saveNewPassword');
     Route::get('regulator/logout', 'Regulators\RegulatoryController@logout');
-});
+// });
 
 
 //===================================================================================
@@ -107,5 +115,7 @@ Route::get('distributor/new-order', 'Distributor\DistributorsController@receiveI
 Route::get('distributor/new-transaction', 'Distributor\DistributorsController@newTransaction');
 Route::post('distributor/new-transaction', 'Distributor\DistributorsController@saveTransaction');
 Route::get('distributor/pending-transactions', 'Distributor\DistributorsController@pendingTransaction');
-
+Route::post('distributor/addproduct', 'Distributor\DistributorsController@saveProducts');
+Route::get('distributor/addproduct', 'Distributor\DistributorsController@newproducts');
+Route::get('distributor/productlist', 'Distributor\DistributorsController@getProducts');
 

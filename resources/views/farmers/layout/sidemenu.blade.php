@@ -14,7 +14,15 @@
             </ul>
           </li>
 
-          <li class=" nav-item"><a href="{{url('/farmers/home')}}"><i class="ft-list"></i><span data-i18n="" class="menu-title">MY PRODUCTS</span></a>
+          {{-- <li class=" nav-item"><a href="{{url('/farmers/home')}}"><i class="ft-list"></i><span data-i18n="" class="menu-title">MY PRODUCTS</span></a>
+          </li> --}}
+
+          <li class=" nav-item"><a href="#"><i class="ft-list"></i><span data-i18n="" class="menu-title">MY PRODUCTS</span><span class="badge badge badge-primary badge-pill float-right mr-2"></span></a>
+            <ul class="menu-content">
+              <li class=""><a href="{{url('/farmers/addproduct')}}" class="menu-item">Add New</a> </li>
+              <li><a href="{{url('/farmers/productlist')}}" class="menu-item">List Product</a></li>
+              </li>
+            </ul>
           </li>
 
         <li class=" nav-item"><a href="#"><i class="ft-list"></i><span data-i18n="" class="menu-title">ACTIVITIES RECORDS</span><span class="badge badge badge-primary badge-pill float-right mr-2"></span></a>
