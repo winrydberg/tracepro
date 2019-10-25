@@ -71,4 +71,6 @@ class ActorsController extends Controller
             return ['status'=>'error'];
         }
     }
+
+    
 }
