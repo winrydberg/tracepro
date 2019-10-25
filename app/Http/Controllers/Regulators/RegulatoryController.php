@@ -129,7 +129,7 @@ class RegulatoryController extends Controller
         $actor->email = $r->email;
         $actor->digital_address = $r->digital_address;
         $actor->ispassword_reset = false;
-
+        $actor->actortype = $r->actortype;
         //generate password
         $password = $this->genDefaultPassword();
         $actor->password = $password;

@@ -23,6 +23,7 @@ class DistributorsController extends Controller
     }
 
     public function pendingTransaction(){
+        
         return view('distributor.pendingtransactions');
     }
     

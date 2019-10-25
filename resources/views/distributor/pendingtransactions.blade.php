@@ -61,7 +61,31 @@
 
 </div>
 @endsection
+
+
 @section('scripts-below')
-  <script src="{{asset('assets/vendors/js/extensions/sweetalert.min.js')}}" type="text/javascript"></script>
-@endsection
+<script src="{{asset('assets/vendors/js/extensions/sweetalert.min.js')}}" type="text/javascript"></script>
+
+    <script>
+          $(document).ready(function(){
+              alert("{{$bin}}");
+               
+            //    $.ajax({
+            //        url: "{{url('actors/getpendingtransactions/'+{{$bin}}+)}}",
+            //        method: 'POST',
+            //        data: {actortype: actortype, _token:"{{Session::token()}}"},
+            //        success: function(response){
+            //                if(response.status =='success'){
+            //                    $('#bin').val(response.bin);
+            //                }else{
+            //                   alert(response.message)
+            //                }
+            //        },
+            //        error: function(error){
+            //             alert('Oops Something went wrong. Please try again');
+            //             console.log(error)
+            //        }
+            //    })
+          });
+    </script>
 @stop
