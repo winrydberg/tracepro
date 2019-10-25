@@ -23,7 +23,17 @@
                             <div class="card-text">
                                 <p>Use this form to receive a product</p>
                             </div>
-                            <form class="form">
+                            <form class="form" id="transactionform">
+                                {{-- customer information here --}}
+                                <input type="hidden" name='customerbin' value="A">
+                                <input type="hidden" name='customername' value="B">
+                                <input type="hidden" name='customercontact' value="C">
+                                <input type="hidden" name='customeraddress' value="D">
+                                <input type="hidden" name='customeremail' value="E">
+                                <input type="hidden" name='customertype' value="F">
+                                <input type="hidden" name='approvedbycustomer' value="1">
+                                {{-- end --}}
+                                {{csrf_field()}}
                                 <div class="form-body">
                                     <h4 class="form-section"> Supplier Information</h4>
                                     <div class="row">
@@ -39,6 +49,26 @@
                                                     <input type="text" id="suppliername" class="form-control" name="suppliername">
                                                 </div>
                                             </div>
+                                            <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="suppliertype">Supplier Type</label>
+                                                         <select name="suppliertype" id="suppliertype" class="form-control">
+                                                                <option value="">Please select</option>
+                                                                <option value="Grower">I am Grower/Farmer</option>
+                                                                <option value="Packer">I am Produce Packer/Re-packer</option>
+                                                                <option value="Distributor">I am Distributor/Trader</option>
+                                                                <option value="Manufacturer">I am Manufacturer/Processor</option>
+                                                                <option value="Retail Store">I am Retail Store</option>
+                                                                <option value="Food Service Operator">I am Food Service Operator</option>
+                                                         </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="supplieremail">Supplier Email</label>
+                                                            <input type="text" id="supplieremail" class="form-control" name="supplieremail">
+                                                        </div>
+                                                    </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
@@ -57,7 +87,8 @@
 
                                    
 
-                                    <h4 class="form-section"> Product Information</h4>
+                                   
+                                        <h4 class="form-section"> Product Information</h4>
                                     <div class="row">
                                             <div class="col-md-6">
                                                     <div class="form-group">
@@ -72,21 +103,6 @@
                                                     </div>
                                             </div>
                                         </div>
-
-                                        <div class="row">
-                                                <div class="col-md-6">
-                                                        <div class="form-group">
-                                                                <label for="productgtin">Product GTIN No.</label>
-                                                                <input type="text" id="productgtin" class="form-control" name="productgtin">
-                                                            </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                        <div class="form-group">
-                                                                <label for="productname">Product Name</label>
-                                                                <input type="text" id="productname" class="form-control" name="productname">
-                                                        </div>
-                                                </div>
-                                            </div>
                                        
                                         
                                         <div class="row">
@@ -118,15 +134,32 @@
                                                     </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                                <label for="productdescription">Product Description</label>
-                                                <textarea id="productdescription" rows="5" class="form-control" name="productdescription"></textarea>
+    
+                                        <div class="row">
+                                                <div class="col-md-6">
+                                                        <div class="form-group">
+                                                                <label for="productwherepurchased">Digital Addres of Where the product were picked</label>
+                                                                <input type="text" id="productwherepurchased" class="form-control" name="productwherepurchased">
+                                                        </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                        <div class="form-group">
+                                                                <label for="productwheredelivered">Digital Address of Where the product were delivered</label>
+                                                                <input type="text" id="productwheredelivered" class="form-control" name="productwheredelivered">
+                                                        </div>
+                                                </div>
                                             </div>
+
+                                            <div class="form-group">
+                                                    <label for="transactiondate">Date of Transaction</label>
+                                                    <input type="text" id="transactiondate" class="form-control col-md-6" name="transactiondate">
+                                                </div>
                                     
                                         <div class="form-group">
                                             <label for="productextrainfo">Extra Information</label>
                                             <textarea id="productextrainfo" rows="5" class="form-control" name="productextrainfo"></textarea>
                                         </div>
+
 
 
                                         <h4 class="form-section"> Shipping Information</h4>
@@ -221,4 +254,21 @@
 @endsection
 @section('scripts-below')
   <script src="{{asset('assets/vendors/js/extensions/sweetalert.min.js')}}" type="text/javascript"></script>
+  <script type="text/javascript">
+    $('#transactionform').submit(function(e){
+        e.preventDefault();
+        $('#loadinggif').show();
+        $.post('{{url('actors/recordtransactions')}}',$(this).serialize(),function(response){
+            $('#loadinggif').hide(); 
+          if(response.status==='success'){
+            swal("Success",'Transactions successfully recorded','success');
+          }else{
+            swal("Error",'Sorry.. Your Transactions could not be saved.. Please try again','error');
+          }
+        }).fail(function(){
+        $('#loadinggif').hide(); 
+        swal("Error",'Sorry.. Your Transactions could not be saved.. Please try again','error');
+        });
+    });
+</script>
 @endsection
