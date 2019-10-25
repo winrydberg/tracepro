@@ -14,6 +14,7 @@ Route::get('actors/login','ActorsController@login');
 Route::get('actors/logout','ActorsController@logout');
 Route::post('actors/authenticate','ActorsController@authenticate');
 Route::post('actors/recordtransactions','ActorsController@recordtransactions');
+Route::get('actors/getpendingtransactions/{bin}','ActorsController@getpendingtransactions');
 
 
 Route::group(['prefix'=>'farmers'],function(){
@@ -43,8 +44,10 @@ Route::group(['prefix'=>'farmers'],function(){
 
 Route::group(['prefix'=>'foodservice'],function(){
     Route::get('/home','FoodServiceController@home');
-    Route::get('/profile','FoodServiceController@profile');
     Route::get('/receiveproduct','FoodServiceController@receiveproduct');
+    Route::get('/history','FoodServiceController@history');
+    Route::get('/approvals','FoodServiceController@approvals');
+    Route::get('/approveorder','FoodServiceController@approveorder');
 });
 
 Route::group(['prefix'=>'packer'],function(){

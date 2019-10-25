@@ -73,4 +73,8 @@ class ActorsController extends Controller
     }
 
     
+    public function getpendingtransactions($bin=null){
+      $pendings = Transaction::where('customerbin',$bin)->where('approvedbycustomer',0)->get();
+      return ['status'=>'success','data'=>$pendings];
+    }
 }

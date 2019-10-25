@@ -8,20 +8,22 @@ class Transaction extends Model
 {
     //
     protected $fillable = [
-         'transactionid' ,
-         'approvedbysender' ,
-         'approvedbyreceiver' ,
+         'transactionid',
+         'approvedbysupplier' ,
+         'approvedbycustomer' ,
          'cancelled',
          'supplierbin' ,
          'suppliername' ,
          'suppliercontact' ,
          'supplieraddress' ,
-         'supplieremail' ,
+         'supplieremail',
+         'suppliertype',
          'customerbin' ,
          'customername' ,
          'customercontact' ,
          'customeraddress' ,
-         'customeremail' ,
+         'customeremail',
+         'customertype',
          'productidno' ,
          'productname' ,
          'productbrandname' ,
@@ -39,5 +41,8 @@ class Transaction extends Model
          'dateoftransaction' ,
          'receivedperson' ,
          'dispatchedperson' ,
+         'dateofshipment',
+         'shippingfromaddress',
+         'shippingtoaddress'
     ];
 }

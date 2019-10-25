@@ -17,8 +17,8 @@ class CreateTransactionsTable extends Migration
             $table->increments('id');
 
             $table->string('transactionid')->nullable();
-            $table->string('approvedbysender')->default(0);
-            $table->string('approvedbyreceiver')->default(0);
+            $table->string('approvedbysupplier')->default(0);
+            $table->string('approvedbycustomer')->default(0);
             $table->boolean('cancelled')->default(0);
         
 
@@ -27,12 +27,14 @@ class CreateTransactionsTable extends Migration
             $table->string('suppliercontact')->nullable();
             $table->string('supplieraddress')->nullable();
             $table->string('supplieremail')->nullable();
+            $table->string('suppliertype')->nullable();
 
             $table->string('customerbin')->nullable();
             $table->string('customername')->nullable();
             $table->string('customercontact')->nullable();
             $table->string('customeraddress')->nullable();
             $table->string('customeremail')->nullable();
+            $table->string('customertype')->nullable();
 
             $table->string('productidno')->nullable();
             $table->string('productname')->nullable();
@@ -46,6 +48,10 @@ class CreateTransactionsTable extends Migration
 
             $table->string('supplierofproductinput')->nullable();
             $table->string('batchnoofsupplierproduct')->nullable();
+
+            $table->string('dateofshipment')->nullable();
+            $table->string('shippingfromaddress')->nullable();
+            $table->string('shippingtoaddress')->nullable();
 
             $table->string('transportername')->nullable();
             $table->string('transportercontact')->nullable();
