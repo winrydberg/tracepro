@@ -10,7 +10,7 @@
         <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title" id="basic-layout-form">NEW ORDER</h4>
+                        <h4 class="card-title" id="basic-layout-form">TRANSACTIONS</h4>
                         <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                         <div class="heading-elements">
                             <ul class="list-inline mb-0">
@@ -24,10 +24,10 @@
                     <div class="card-content collapse show">
                         <div class="card-body">
                             <div class="card-text">
-                                <p>Create a New Order</p>
+                                <p>Add a transaction</p>
                             </div>
-                        <form class="form" id="distorderform" method="POST" >
-                                {{csrf_field()}}
+                        <form class="form" id="disttransactionform" method="POST">
+                            {{csrf_field()}}
                                 <div class="form-body">
                                     <h4 class="form-section"> Supplier / Seller Information</h4>
                                     <div class="row">
@@ -221,27 +221,22 @@
 </div>
 @endsection
 
-
-
 @section('scripts-below')
   <script src="{{asset('assets/vendors/js/extensions/sweetalert.min.js')}}" type="text/javascript"></script>
   <script type="text/javascript">
-  $('#loadinggif').hide();
-    $('#distorderform').submit(function(e){
+    $('#loadinggif').hide();
+    $('#disttransactionform').submit(function(e){
         e.preventDefault();
         $('#loadinggif').show();
-        // console.log($(this).serialize())
         $.post('{{url('actors/recordtransactions')}}',$(this).serialize(),function(response){
-            console.log(response);
             $('#loadinggif').hide(); 
           if(response.status==='success'){
             swal("Success",'Your farm Inputs has been successfully saved','success');
           }else{
             swal("Error",'Sorry.. Your Farm Input Records could not be saved.. Please try again','error');
           }
-        }).fail(function(error){
+        }).fail(function(){
         $('#loadinggif').hide(); 
-         console.log(error);
         swal("Error",'Sorry.. Your Farm Input Records could not be saved.. Please try again','error');
         });
     });
