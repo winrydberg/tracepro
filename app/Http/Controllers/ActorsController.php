@@ -8,6 +8,7 @@ use App\Works\RedisQuery;
 use App\Customer;
 use DB;
 use Session;
+use Hash;
 
 
 class ActorsController extends Controller
@@ -23,15 +24,15 @@ class ActorsController extends Controller
     }
 
     public function authuser($r){
-        $checkuser = DB::where('email',$r->username)->orWhere('phoneno',$r->username)->first();
-       if($checkuser !== null){
+        $checkuser = DB::table('actors')->where('email',$r->username)->orWhere('phoneno',$r->username)->first();
+
+        if($checkuser !== null){
          if (Hash::check($r->password, $checkuser->password)) {
            Session::put('outh',$checkuser);
              return ['status'=>'success','user'=>$checkuser];
             }else{
              return ['status'=>'error'];
             }
-         
        }else{
          return ['status'=>'error'];
        }
@@ -81,7 +82,16 @@ class ActorsController extends Controller
 
     public function recordtransactions(Request $r){
         $add = Transaction::create($r->all());
+        $authuser = Session::get('outh');
         if($add){
+            $add->update([
+                'customerbin'=>$authuser->bin,
+                'customername' =>$authuser->name,
+                'customercontact'=> $authuser->phoneno ,
+                'customeraddress' => $authuser->digital_address,
+                'customeremail' => $authuser->email,
+                'customertype' =>$authuser->actortype,
+            ]);
             return ['status'=>'success'];
         }else{
             return ['status'=>'error'];
@@ -93,12 +103,13 @@ class ActorsController extends Controller
       return ['status'=>'success'];
     }
 
-    
+
     public function getpendingtransactions($bin=null){
       $pendings = Transaction::where('customerbin',$bin)->where('approvedbycustomer',0)->get();
       return ['status'=>'success','data'=>$pendings];
     }
 
+<<<<<<< HEAD
     public function generateqrcode(Request $r){
         QrCode::generate($r->data, public_path('qrcodes'.'/'.$r->productidno));
     }
@@ -118,4 +129,6 @@ class ActorsController extends Controller
        return ['status'=>'success'];
        
     }
+=======
+>>>>>>> 05143cdea131eb1d58a81b5f4a86c28e05c45555
 }

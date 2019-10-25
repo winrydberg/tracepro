@@ -25,6 +25,7 @@ Route::get('actors/approvetransaction','ActorsController@approvetransaction');
 Route::post('actors/savecustomer','ActorsController@savecustomer');
 
 
+
 Route::group(['prefix'=>'farmers'],function(){
     Route::get('/home','FarmersController@home');
 
@@ -48,6 +49,7 @@ Route::group(['prefix'=>'farmers'],function(){
 
     Route::get('/profile','FarmersController@profile');
     Route::get('/transactions','FarmersController@transactions');
+<<<<<<< HEAD
 
     Route::get('/createcustomer','FarmersController@createcustomer');
     Route::get('/customerlist','FarmersController@customerlist');
@@ -55,6 +57,14 @@ Route::group(['prefix'=>'farmers'],function(){
 
     Route::get('/approvals','FarmersController@approvals');
     
+=======
+    Route::get('/transactions','FarmersController@transactions');
+    Route::post('/addproduct', 'FarmersController@saveProducts');
+    Route::get('/addproduct', 'FarmersController@newproducts');
+    Route::get('/productlist', 'FarmersController@getProducts');
+
+
+>>>>>>> 05143cdea131eb1d58a81b5f4a86c28e05c45555
 
 });
 
@@ -104,7 +114,11 @@ Route::group(['prefix'=>'manufacturer'],function(){
 Route::get('regulator/login', 'Regulators\RegulatoryController@login')->name('login');
 Route::post('regulator/login', 'Regulators\RegulatoryController@loginAdmin');
 
+<<<<<<< HEAD
 //Route::group(['middleware' => ['auth:regulator']], function () {
+=======
+// Route::group(['middleware' => ['auth:regulator']], function () {
+>>>>>>> 05143cdea131eb1d58a81b5f4a86c28e05c45555
     Route::get('regulator/dashboard', 'Regulators\RegulatoryController@index');
     Route::get('regulator/new-actor', 'Regulators\RegulatoryController@newActor');
     Route::post('regulator/new-actor', 'Regulators\RegulatoryController@registerActor');
@@ -116,7 +130,11 @@ Route::post('regulator/login', 'Regulators\RegulatoryController@loginAdmin');
     Route::get('actor/reset-password', 'Regulators\RegulatoryController@resetPassword');
     Route::post('actor/reset-password', 'Regulators\RegulatoryController@saveNewPassword');
     Route::get('regulator/logout', 'Regulators\RegulatoryController@logout');
+<<<<<<< HEAD
 //});
+=======
+// });
+>>>>>>> 05143cdea131eb1d58a81b5f4a86c28e05c45555
 
 
 //===================================================================================
@@ -127,5 +145,7 @@ Route::get('distributor/new-order', 'Distributor\DistributorsController@receiveI
 Route::get('distributor/new-transaction', 'Distributor\DistributorsController@newTransaction');
 Route::post('distributor/new-transaction', 'Distributor\DistributorsController@saveTransaction');
 Route::get('distributor/pending-transactions', 'Distributor\DistributorsController@pendingTransaction');
-
+Route::post('distributor/addproduct', 'Distributor\DistributorsController@saveProducts');
+Route::get('distributor/addproduct', 'Distributor\DistributorsController@newproducts');
+Route::get('distributor/productlist', 'Distributor\DistributorsController@getProducts');
 

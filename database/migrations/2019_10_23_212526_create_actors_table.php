@@ -24,6 +24,7 @@ class CreateActorsTable extends Migration
             $table->string('password');
             $table->boolean('ispassword_reset');
             $table->string('resettoken');
+            $table->string('actortype');
             $table->timestamps();
         });
     }

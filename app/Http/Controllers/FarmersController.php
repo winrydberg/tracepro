@@ -5,7 +5,12 @@ use App\FarmInput;
 use App\FarmRecord;
 use App\Farm;
 use App\Plot;
+<<<<<<< HEAD
 use App\Customer;
+=======
+use App\Transaction;
+use App\Product;
+>>>>>>> 05143cdea131eb1d58a81b5f4a86c28e05c45555
 use Session;
 use App\Transaction;
 
@@ -17,7 +22,8 @@ class FarmersController extends Controller
     //
 
     public function generateRandomNumber(){
-   	 return mt_rand(1000000000,9999999999);
+     return mt_rand(10000000,99999999);
+    //  return 20000000;
     }
 
 
@@ -86,8 +92,9 @@ class FarmersController extends Controller
 
     public function addnewfarm(Request $r){
         $r->merge(['farmerbin' => '100000001']);
+       $authuser = Session::get('outh');
        $newfarm = new Farm;
-       $newfarm->farmerbin = $r->farmerbin;
+       $newfarm->farmerbin = $authuser->bin;
        $newfarm->farmbin = $this->generateRandomNumber();
        $newfarm->farmlocation = $r->farmlocation;
        $newfarm->farmname = $r->farmname;
@@ -149,6 +156,7 @@ class FarmersController extends Controller
       return view('farmers.transactions');
     }
 
+<<<<<<< HEAD
     public function createcustomer(){
       return view('farmers.createcustomer');
     }
@@ -171,5 +179,43 @@ class FarmersController extends Controller
     public function approvals(){
        $approvals  = Transaction::where('supplierbin',Session::get('outh'))->where('approvedbysupplier',0)->get();
        return view('farmers.approvals',compact('approvals'));
+=======
+
+    //adding products
+    public function newproducts(){
+      $authuser = Session::get('outh');
+      $farms = Farm::where('farmerbin', $authuser->bin)->get(); //get farms specific to farmer later on
+      $farmerTransactions  = Transaction::where('customerbin', $authuser->bin )->get();
+      // dd($farmerTransactions);
+      return view('farmers.newproduct', compact('farms','farmerTransactions'));
+    }
+
+    public function saveProducts(Request $r){
+      $authuser = Session::get('outh');
+      $product = new Product();
+      $product->productname = $r->productname;
+      $product->productbrandname = $r->productbrandname;
+      $product->productvariety = $r->productvariety;
+      $product->productbatchno = $r->bno;
+      $product->inputbatchno = $r->productbatchno;
+      $product->productquantity = $r->productquantity;
+      $product->farmid = $r->farmid;
+      $product->actorbin = $authuser->bin;
+
+
+      if($product->save()){
+
+        Session::flash('success', 'Product successfully created');
+        return back();
+      }else{
+        Session::flash('error', 'Oops Something went wrong.Please try agin');
+        return back();
+      }
+    }
+
+    public function getProducts(){
+      $products = Product::where('actorbin',Session::get('outh')->bin )->get();
+      return view('farmers.productlist', compact('products'));
+>>>>>>> 05143cdea131eb1d58a81b5f4a86c28e05c45555
     }
 }
