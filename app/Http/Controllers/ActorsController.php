@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Transaction;
 use App\Works\RedisQuery;
+use App\Customer;
 use DB;
 use Session;
 
@@ -96,5 +97,25 @@ class ActorsController extends Controller
     public function getpendingtransactions($bin=null){
       $pendings = Transaction::where('customerbin',$bin)->where('approvedbycustomer',0)->get();
       return ['status'=>'success','data'=>$pendings];
+    }
+
+    public function generateqrcode(Request $r){
+        QrCode::generate($r->data, public_path('qrcodes'.'/'.$r->productidno));
+    }
+
+    public function savecustomer(Request $r){
+        $r->merge(['customerof'=>'1000000002']);
+        $add = Customer::create($r->all());
+        if($add){
+          return ['status'=>'success'];
+        }else{
+          return ['status'=>'error'];
+        }
+    }
+
+    public function approvetransaction(Request $r){
+       $update =  Transaction::where('id',$r->id)->update(['approvedbycustomer'=>1]);
+       return ['status'=>'success'];
+       
     }
 }

@@ -75,7 +75,7 @@ height: auto;
                             <div class="card border-grey border-lighten-3 m-0">
                                 <div class="card-header border-0">
                                     <div class="card-title text-center">
-                                        <div><img src="{{asset('assets/images/tracepro.png')}}" style="max-width:100px;border-radius:10px" alt="branding logo"></div>
+                                        <div><img src="{{asset('assets/images/logo.png')}}" style="max-width:100px;border-radius:10px" alt="branding logo"></div>
                                     </div>
 
                                     <h3 align="center" style="margin-top: 10px;">REGULATORY BODY</h3>

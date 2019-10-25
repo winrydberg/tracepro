@@ -17,6 +17,17 @@
           <li class=" nav-item"><a href="{{url('/farmers/home')}}"><i class="ft-list"></i><span data-i18n="" class="menu-title">MY PRODUCTS</span></a>
           </li>
 
+          <li class=" nav-item"><a href="{{url('/farmers/approvals')}}"><i class="ft-list"></i><span data-i18n="" class="menu-title">APPROVALS</span></a>
+          </li>
+
+          <li class=" nav-item"><a href="#"><i class="ft-list"></i><span data-i18n="" class="menu-title">CUSTOMERS</span><span class="badge badge badge-primary badge-pill float-right mr-2"></span></a>
+            <ul class="menu-content">
+            <li class=""><a href="{{url('/farmers/createcustomer')}}" class="menu-item">Add New</a> </li>
+            <li><a href="{{url('/farmers/customerlist')}}" class="menu-item">List</a></li>
+              </li>
+            </ul>
+          </li>
+
         <li class=" nav-item"><a href="#"><i class="ft-list"></i><span data-i18n="" class="menu-title">ACTIVITIES RECORDS</span><span class="badge badge badge-primary badge-pill float-right mr-2"></span></a>
             <ul class="menu-content">
               <li class=""><a href="{{url('/farmers/farmrecords')}}" class="menu-item">Add New</a> </li>

@@ -5,7 +5,10 @@ use App\FarmInput;
 use App\FarmRecord;
 use App\Farm;
 use App\Plot;
+use App\Customer;
 use Session;
+use App\Transaction;
+
 
 use Illuminate\Http\Request;
 
@@ -57,7 +60,9 @@ class FarmersController extends Controller
     }
 
     public function farmrecords(){
-      return view('farmers.farmrecords');
+      $farms  = Farm::all();
+      $plots = Plot::all();
+      return view('farmers.farmrecords',compact('farms','plots'));
     }
 
     public function farmrecordslist(){
@@ -142,5 +147,29 @@ class FarmersController extends Controller
 
     public function transactions(){
       return view('farmers.transactions');
+    }
+
+    public function createcustomer(){
+      return view('farmers.createcustomer');
+    }
+
+    public function customerlist(){
+      $customers = Customer::where('customerof','1000000002')->get();
+      return view('farmers.customerlist',compact('customers'));
+    }
+
+    public function savecustomer(Request $r){
+      $r->merge(['customerof'=>'1000000002']);
+      $add = Customer::create($r->all());
+      if($add){
+        return ['status'=>'success'];
+      }else{
+        return ['status'=>'error'];
+      }
+    }
+
+    public function approvals(){
+       $approvals  = Transaction::where('supplierbin',Session::get('outh'))->where('approvedbysupplier',0)->get();
+       return view('farmers.approvals',compact('approvals'));
     }
 }

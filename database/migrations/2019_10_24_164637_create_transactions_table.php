@@ -37,6 +37,7 @@ class CreateTransactionsTable extends Migration
             $table->string('customertype')->nullable();
 
             $table->string('productidno')->nullable();
+            $table->string('productgtin')->nullable();
             $table->string('productname')->nullable();
             $table->string('productbrandname')->nullable();
             $table->string('productvariety')->nullable();
