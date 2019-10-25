@@ -164,6 +164,7 @@ height: auto;
                  setTimeout(function(){$('#error').slideUp(500);},3000);
               }
             }).fail(function(){
+              
             $('#loadinggif').hide(); 
             $('#connection').show();
              setTimeout(function(){$('#connection').slideUp(500);},3000);
