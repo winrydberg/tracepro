@@ -23,6 +23,7 @@ Route::get('actors/getpendingtransactions/{bin}','ActorsController@getpendingtra
 Route::post('actors/generateqrcode','ActorsController@generateqrcode');
 Route::get('actors/approvetransaction','ActorsController@approvetransaction');
 Route::post('actors/savecustomer','ActorsController@savecustomer');
+Route::get('actors/pullinfo','ActorsController@pullinfo');
 
 
 

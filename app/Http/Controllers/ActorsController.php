@@ -16,7 +16,26 @@ class ActorsController extends Controller
     //
     public function generateRandomString($length = 20) {
       return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
- }
+    }
+    public function pullinfo(Request $r){
+       $fetch = Transaction::where('batchnoofsupplierproduct',$r->inputbatch)->first();
+       if(is_null($fetch)){
+         return ['status'=>'success'];
+       }else{
+        $data = json_encode([
+          'APP'=>'TRACEPRO',
+          'Product ID'=>$fetch->productidno,
+          'Product Name'=>$fetch->productname,
+          'Product Batchno'=>$fetch->productbatchno,
+          'Supplier BIN'=>$fetch->supplierbin,
+          'Supplier Name'=>$fetch->suppliername,
+          'Quantity'=>$fetch->suppliername,
+          'Input Used'=>$fetch->batchnoofsupplierproduct,
+          ]);
+          return ['status'=>'success','data'=>$data];
+       }
+    }
+
     public function login(){
       return view('actorslogin');
     }
@@ -30,6 +49,9 @@ class ActorsController extends Controller
         $checkuser = DB::table('actors')->where('email',$r->username)->orWhere('phoneno',$r->username)->first();
 
         if($checkuser !== null){
+           if($checkuser->actortype != $r->actortype){
+             return ['status'=>'error'];
+           }
          if (Hash::check($r->password, $checkuser->password)) {
            Session::put('outh',$checkuser);
              return ['status'=>'success','user'=>$checkuser];
@@ -46,27 +68,27 @@ class ActorsController extends Controller
     public function authenticate(Request $r){
         $response = ['status'=>'error'];
         switch($r->actortype){
-            case 'Grower':
+            case 'GROWER':
             if($this->authuser($r)['status']=='success'){
                 $response = ['status'=>'success','responseurl'=>url('/farmers/home')];
             }
             break;
-            case 'Packer':
+            case 'PACKER':
             if($this->authuser($r)['status']=='success'){
                 $response = ['status'=>'success','responseurl'=>url('/packer/home')];
             }
             break;
-            case 'Distributor':
+            case 'DISTRIBUTOR':
             if($this->authuser($r)['status']=='success'){
                 $response = ['status'=>'success','responseurl'=>url('/packer/home')];
             }
             break;
-            case 'Manufacturer':
+            case 'MANUFACTURER':
             if($this->authuser($r)['status']=='success'){
-                $response = ['status'=>'success','responseurl'=>url('/manufacturer/home')];
+                $response = ['status'=>'success','responseurl'=>url('/packer/home')];
             }
             break;
-            case 'Retail Store':
+            case 'RETAILSTORE':
             if($this->authuser($r)['status']=='success'){
                 $response = ['status'=>'success','responseurl'=>url('/retailstore/home')];
             }
@@ -87,14 +109,6 @@ class ActorsController extends Controller
         $add = Transaction::create($r->all());
         $authuser = Session::get('outh');
         if($add){
-            $add->update([
-                'customerbin'=>$authuser->bin,
-                'customername' =>$authuser->name,
-                'customercontact'=> $authuser->phoneno ,
-                'customeraddress' => $authuser->digital_address,
-                'customeremail' => $authuser->email,
-                'customertype' =>$authuser->actortype,
-            ]);
             return ['status'=>'success'];
         }else{
             return ['status'=>'error'];
@@ -117,7 +131,8 @@ class ActorsController extends Controller
     }
 
     public function savecustomer(Request $r){
-        $r->merge(['customerof'=>'1000000002']);
+        $r->merge(['customerof'=>Session::get('outh')->bin]);
+        $r->merge(['customeroftype'=>Session::get('outh')->actortype]);
         $add = Customer::create($r->all());
         if($add){
           return ['status'=>'success'];

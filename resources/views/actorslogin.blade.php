@@ -72,6 +72,12 @@ height: auto;
             <section class="flexbox-container" style="background:black">
                     <div class="col-12 d-flex align-items-center justify-content-center">
                         <div class="col-md-4 col-10 box-shadow-2 p-0">
+                            <div class="alert bg-danger alert-dismissible mb-2" role="alert" id="error" style="display: none">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true"></span>
+                                </button>
+                                <strong>Error! </strong>Invalid Email or Password
+                            </div>
                             <div class="card border-grey border-lighten-3 m-0">
                                 <div class="card-header border-0">
                                     <div class="card-title text-center">
@@ -86,12 +92,12 @@ height: auto;
                                                 <fieldset class="form-group position-relative has-icon-left mb-0">
                                                         <select name="actortype" class="form-control" id="actortype" required="required" aria-invalid="false">
                                                             <option value="">I am</option>
-                                                            <option value="Grower">I am Grower/Farmer</option>
-                                                            <option value="Packer">I am Produce Packer/Re-packer</option>
-                                                            <option value="Distributor">I am Distributor/Trader</option>
-                                                            <option value="Manufacturer">I am Manufacturer/Processor</option>
-                                                            <option value="Retail Store">I am Retail Store</option>
-                                                            <option value="Food Service Operator">I am Food Service Operator</option>
+                                                            <option value="GROWER">I am Grower/Farmer</option>
+                                                            <option value="PACKER">I am Produce Packer/Re-packer</option>
+                                                            <option value="DISTRIBUTOR">I am Distributor/Trader</option>
+                                                            <option value="MANUFACTURER">I am Manufacturer/Processor</option>
+                                                            <option value="RETAILSTORE">I am Retail Store</option>
+                                                            {{-- <option value="Food Service Operator">I am Food Service Operator</option> --}}
 
                                                             </select>
                                                         {{-- <div class="form-control-position">

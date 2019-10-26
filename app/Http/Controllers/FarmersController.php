@@ -44,13 +44,13 @@ class FarmersController extends Controller
     }
 
     public function updatefarminputs(Request $r){
-        $add = FarmInput::where('id',$r->idtoupdate)->update($r->except(['_token','idtoupdate']));
+        $add = Transaction::where('id',$r->idtoupdate)->update($r->except(['_token','idtoupdate']));
         return ['status'=>'success'];
        
     }
 
     public function inputlist(){
-        $farminputs = FarmInput::where('farmerbin',Session::get('outh')->bin)->get();
+        $farminputs = Transaction::where('customerbin',Session::get('outh')->bin)->get();
       return view('farmers.inputlist',compact('farminputs'));
     }
 
@@ -211,7 +211,18 @@ class FarmersController extends Controller
           'inputsused'=>$product->inputbatchno,
           'farm'=>Farm::where('farmerbin', $authuser->bin)->first(['farmname'])->farmname
           ]);
-        QrCode::size(400)->format('svg')->generate($qrcodedata,public_path('qrcodes/'.$product->productidno.'.svg'));
+          $qrcodedata1 = json_encode([
+            'APP'=>'TRACEPRO',
+            'Product ID'=>$product->productidno,
+            'Product Name'=>$r->productname,
+            'Product Batchno'=>$product->productbatchno,
+            'Supplier BIN'=>Session::get('outh')->bin,
+            'Supplier Name'=>Session::get('outh')->name,
+            'Quantity'=>$r->productquantity,
+            'Input Used'=>$product->inputbatchno,
+            'Farm'=>Farm::where('farmerbin', $authuser->bin)->first(['farmname'])->farmname
+            ]);
+        QrCode::size(400)->format('svg')->generate($qrcodedata1,public_path('qrcodes/'.$product->productidno.'.svg'));
          
         //Session::flash('success', 'Product successfully created',);
         return ['status'=>'success','data'=>$qrcodedata,'productidno'=>$product->productidno];
