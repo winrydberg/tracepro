@@ -6,7 +6,8 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="alert alert-success">
-            <strong>Welcome Back Packer</strong>
+            <?php $user = Session::get('outh');?>
+        <strong>Welcome Back {{$user->name}}</strong>
           </div>
     </div>
   </div>

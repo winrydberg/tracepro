@@ -132,7 +132,7 @@ class RegulatoryController extends Controller
         $actor->actortype = $r->actortype;
         //generate password
         $password = $this->genDefaultPassword();
-        $actor->password = Hash::make($password);
+        $actor->password = Hash::make("password");
         //record registrer info
         $registeredby = [
             'email' => $r->pemail,
@@ -144,7 +144,7 @@ class RegulatoryController extends Controller
        $token = $this->getResetToken();
        $actor->resettoken = $token;
         if($actor->save()){
-            Session::flash('success','Actor Registered on the system'.$password);
+            Session::flash('success','Actor Registered on the system');
                 return back();
             // if($this->sendPasswordResetEmail($actor, $password)){
             //     Session::flash('success','Actor Registered on the system');
