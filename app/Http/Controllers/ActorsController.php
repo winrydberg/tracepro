@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Transaction;
 use App\Works\RedisQuery;
+use App\Customer;
 use DB;
 use Session;
 use Hash;
@@ -13,6 +14,9 @@ use Hash;
 class ActorsController extends Controller
 {
     //
+    public function generateRandomString($length = 20) {
+      return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
+ }
     public function login(){
       return view('actorslogin');
     }
@@ -100,4 +104,41 @@ class ActorsController extends Controller
       return ['status'=>'success','data'=>$pendings];
     }
 
+    public function generateqrcode(Request $r){
+        QrCode::generate($r->data, public_path('qrcodes'.'/'.$r->productidno));
+    }
+
+    public function savecustomer(Request $r){
+        $r->merge(['customerof'=>'1000000002']);
+        $add = Customer::create($r->all());
+        if($add){
+          return ['status'=>'success'];
+        }else{
+          return ['status'=>'error'];
+        }
+    }
+
+    public function approvetransaction(Request $r){
+      $transactionid = $this->generateRandomString();
+      $getdata = Transaction::where('id',$r->id)->first();
+      //  RedisQuery::saveToRedis('transactionid',json_encode(
+      //    [
+      //      'supplierbin'=>$getdata->supplierbin,
+      //      'suppliername'=>$getdata->suppliername,
+      //      'customerbin'=>$getdata->customerbin,
+      //      'customername'=>$getdata->customername,
+      //      'productidno'=>$getdata->productidno,
+      //      'productname'=>$getdata->productname,
+      //      'productbatchno'=>$getdata->productbatchno,
+      //      'productquantity'=>$getdata->productquantity,
+      //      'receiptno'=>$getdata->receiptno,
+      //      'dateoftransaction'=>$getdata->dateoftransaction,
+      //      'supplierofproductinput'=>$getdata->supplierofproductinput,
+      //      'batchnoofsupplierproduct'=>$getdata->batchnoofsupplierproduct,
+      //    ]
+      //  ));
+       $update =  Transaction::where('id',$r->id)->update(['approvedbycustomer'=>1,'transactionid'=>$transactionid]);
+       return ['status'=>'success'];
+       
+    }
 }

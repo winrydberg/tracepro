@@ -1,4 +1,4 @@
-@extends('foodservice.layout.base')
+@extends('retailstore.layout.base')
 @section('styles-below')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/extensions/sweetalert.css')}}">
 @endsection

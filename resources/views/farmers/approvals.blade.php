@@ -1,4 +1,4 @@
-@extends('foodservice.layout.base')
+@extends('farmers.layout.base')
 @section('styles-below')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/extensions/sweetalert.css')}}">
 @endsection
@@ -19,34 +19,36 @@
                 <div class="card-content collapse show">
                     <div class="card-body card-dashboard">
                       <div class="table-responsive">
-                        <table class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Supplier Bin</th>
-                                    <th>Product ID/GTIN</th>
-                                    <th>Product Name</th>
-                                    <th>Batch No</th>
-                                    <th>Quantity</th>
-                                    <th>Receipt No.</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                              @foreach($approvals as $f)
-                                <tr>
-                                    <td>{{$f->supplierbin}}</td>
-                                    <td>{{$f->productidno}}</td>
-                                    <td>{{$f->productname}}</td>
-                                    <td>{{$f->productbatchno}}</td>
-                                    <td>{{$f->productquantity}}</td>
-                                    <td>{{$f->receiptno}}</td>
-                                    <td>
-                                    <a href="#" class="btn btn-sm btn-warning approve" id="{{$f->id}}">Pending Approval</a>
-                                    </td>
-                                </tr>
-                               @endforeach
-                            </tbody>
-                        </table>
+                            <div class="table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Supplier Bin</th>
+                                                <th>Product ID/GTIN</th>
+                                                <th>Product Name</th>
+                                                <th>Batch No</th>
+                                                <th>Quantity</th>
+                                                <th>Receipt No.</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                          @foreach($approvals as $f)
+                                            <tr>
+                                                <td>{{$f->supplierbin}}</td>
+                                                <td>{{$f->productidno}}</td>
+                                                <td>{{$f->productname}}</td>
+                                                <td>{{$f->productbatchno}}</td>
+                                                <td>{{$f->productquantity}}</td>
+                                                <td>{{$f->receiptno}}</td>
+                                                <td>
+                                                <a href="#" class="btn btn-sm btn-warning approve" id="{{$f->id}}">Pending Approval</a>
+                                                </td>
+                                            </tr>
+                                           @endforeach
+                                        </tbody>
+                                    </table>
+                                  </div>
                       </div>
                     </div>
                 </div>
@@ -55,11 +57,7 @@
     </div>
 @endsection
 @section('scripts-below')
-  <script src="{{asset('assets/vendors/js/extensions/sweetalert.min.js')}}" type="text/javascript"></script>
-  <script type="text/javascript">
-    $('table').DataTable();
-  </script>
-  <script type="text/javascript">
+<script type="text/javascript">
     $('.approve').click(function(e){
           e.preventDefault();
        var id = $(this).attr('id');
@@ -86,7 +84,7 @@
               }
           }).then(isConfirm => {
               if (isConfirm) {
-                  $.get("{{url('actors/approvetransaction')}}",{id:id},function(r){
+                  $.get("{{url('foodservice/approveorder')}}",{id:id},function(r){
                           if(r.status=='success'){
                               window.location.reload(true);
                           }

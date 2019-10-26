@@ -5,9 +5,13 @@ use App\FarmInput;
 use App\FarmRecord;
 use App\Farm;
 use App\Plot;
+use App\Customer;
 use App\Transaction;
 use App\Product;
 use Session;
+use QrCode;
+
+
 
 use Illuminate\Http\Request;
 
@@ -30,7 +34,7 @@ class FarmersController extends Controller
     }
 
     public function savefarminputs(Request $r){
-       $r->merge(['farmerbin' => '100000001']);
+       $r->merge(['farmerbin' => Session::get('outh')->bin]);
        $add = FarmInput::create($r->all());
        if($add){
            return ['status'=>'success'];
@@ -46,7 +50,7 @@ class FarmersController extends Controller
     }
 
     public function inputlist(){
-        $farminputs = FarmInput::all();
+        $farminputs = FarmInput::where('farmerbin',Session::get('outh')->bin)->get();
       return view('farmers.inputlist',compact('farminputs'));
     }
 
@@ -60,7 +64,9 @@ class FarmersController extends Controller
     }
 
     public function farmrecords(){
-      return view('farmers.farmrecords');
+      $farms  = Farm::all();
+      $plots = Plot::all();
+      return view('farmers.farmrecords',compact('farms','plots'));
     }
 
     public function farmrecordslist(){
@@ -68,7 +74,7 @@ class FarmersController extends Controller
     }
 
     public function savefarmrecords(Request $r){
-        $r->merge(['farmerbin' => '100000001']);
+        $r->merge(['farmerbin' => Session::get('outh')->bin]);
         $add  = FarmRecord::create($r->all());
         if($add){
             return ['status'=>'success'];
@@ -83,7 +89,7 @@ class FarmersController extends Controller
     }
 
     public function addnewfarm(Request $r){
-        $r->merge(['farmerbin' => '100000001']);
+        $r->merge(['farmerbin' => Session::get('outh')->bin]);
        $authuser = Session::get('outh');
        $newfarm = new Farm;
        $newfarm->farmerbin = $authuser->bin;
@@ -109,13 +115,13 @@ class FarmersController extends Controller
     }
 
     public function plots(){
-      $farms = Farm::where('farmerbin','100000001')->get();
+      $farms = Farm::where('farmerbin',Session::get('outh')->bin)->get();
       $plots = Plot::all();
       return view('farmers.plots',compact('farms','plots'));
     }
 
     public function addnewplot(Request $r){
-        $r->merge(['farmerbin' => '100000001']);
+        $r->merge(['farmerbin' => Session::get('outh')->bin]);
         $newplot = new Plot;
         $newplot->farmerbin = $r->farmerbin;
         $newplot->farmbin = $r->farmbin;
@@ -148,12 +154,34 @@ class FarmersController extends Controller
       return view('farmers.transactions');
     }
 
+    public function createcustomer(){
+      return view('farmers.createcustomer');
+    }
 
+    public function customerlist(){
+      $customers = Customer::where('customerof','1000000002')->get();
+      return view('farmers.customerlist',compact('customers'));
+    }
+
+    public function savecustomer(Request $r){
+      $r->merge(['customerof'=>'1000000002']);
+      $add = Customer::create($r->all());
+      if($add){
+        return ['status'=>'success'];
+      }else{
+        return ['status'=>'error'];
+      }
+    }
+
+    public function approvals(){
+       $approvals  = Transaction::where('supplierbin',Session::get('outh'))->where('approvedbysupplier',0)->get();
+       return view('farmers.approvals',compact('approvals'));
+    }
     //adding products
     public function newproducts(){
       $authuser = Session::get('outh');
       $farms = Farm::where('farmerbin', $authuser->bin)->get(); //get farms specific to farmer later on
-      $farmerTransactions  = Transaction::where('customerbin', $authuser->bin )->get();
+      $farmerTransactions  = Transaction::where('customerbin', $authuser->bin)->get();
       // dd($farmerTransactions);
       return view('farmers.newproduct', compact('farms','farmerTransactions'));
     }
@@ -161,23 +189,37 @@ class FarmersController extends Controller
     public function saveProducts(Request $r){
       $authuser = Session::get('outh');
       $product = new Product();
+      $product->productidno = $this->generateRandomNumber();
       $product->productname = $r->productname;
       $product->productbrandname = $r->productbrandname;
       $product->productvariety = $r->productvariety;
       $product->productbatchno = $r->bno;
-      $product->inputbatchno = $r->productbatchno;
+      $product->inputbatchno = implode(',',$r->productbatchno);
       $product->productquantity = $r->productquantity;
       $product->farmid = $r->farmid;
       $product->actorbin = $authuser->bin;
 
 
       if($product->save()){
-
-        Session::flash('success', 'Product successfully created');
-        return back();
+        $qrcodedata = json_encode([
+          'productidno'=>$product->productidno,
+          'productname'=>$r->productname,
+          'productbatchno'=>$product->productbatchno,
+          'supplierbin'=>Session::get('outh')->bin,
+          'suppliername'=>Session::get('outh')->name,
+          'productquantity'=>$r->productquantity,
+          'inputsused'=>$product->inputbatchno,
+          'farm'=>Farm::where('farmerbin', $authuser->bin)->first(['farmname'])->farmname
+          ]);
+        QrCode::size(400)->format('svg')->generate($qrcodedata,public_path('qrcodes/'.$product->productidno.'.svg'));
+         
+        //Session::flash('success', 'Product successfully created',);
+        return ['status'=>'success','data'=>$qrcodedata,'productidno'=>$product->productidno];
+        //return back();
       }else{
-        Session::flash('error', 'Oops Something went wrong.Please try agin');
-        return back();
+        //Session::flash('error', 'Oops Something went wrong.Please try agin');
+        //return back();
+        return ['status'=>'error'];
       }
     }
 

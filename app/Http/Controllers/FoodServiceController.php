@@ -22,7 +22,7 @@ class FoodServiceController extends Controller
     }
 
     public function approvals(){
-      $approvals = Transaction::where('customerbin','YOUR BIN')->where('approvedbycustomer',0)->get();
+      $approvals = Transaction::where('customerbin','')->where('approvedbycustomer',0)->get();
       return view('foodservice.approvals',compact('approvals'));
     }
 

@@ -23,43 +23,51 @@
                             <div class="card-text">
                                 <p>Add a transaction</p>
                             </div>
+                            <?php  $user = Session::get('outh');?>
                             <form class="form" id="transactionform">
+                                    <input type="hidden" name='supplierbin' value="{{$user->bin}}">
+                                    <input type="hidden" name='suppliername' value="{{$user->name}}">
+                                    <input type="hidden" name='suppliercontact' value="{{$user->phoneno}}">
+                                    <input type="hidden" name='supplieraddress' value="{{$user->digital_address}}">
+                                    <input type="hidden" name='supplieremail' value="{{$user->email}}">
+                                    <input type="hidden" name='suppliertype' value="GROWER">
+                                    <input type="hidden" name='approvedbysupplier' value="1">
                                 {{csrf_field()}}
                                 <div class="form-body">
                                     <h4 class="form-section"> Supplier / Seller Information</h4>
                                     <div class="row">
-                                            <div class="col-md-6">
+                                            {{-- <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="supplierbin">Supplier BIN</label>
                                                     <input type="text" id="supplierbin" class="form-control"  name="supplierbin">
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6">
+                                            </div> --}}
+                                            {{-- <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="suppliername">Supplier Name</label>
                                                     <input type="text" id="suppliername" class="form-control" name="suppliername">
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            {{-- <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="suppliercontact">Supplier Contact Info</label>
                                                     <input type="text" id="suppliercontact" class="form-control" name="suppliercontact">
                                                 </div>
-                                            </div>
-                                            <div class="col-md-4">
+                                            </div> --}}
+                                            {{-- <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="supplieraddress">Supplier Address</label>
                                                     <input type="text" id="supplieraddress" class="form-control" name="supplieraddress">
                                                 </div>
-                                            </div>
-                                            <div class="col-md-4">
+                                            </div> --}}
+                                            {{-- <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="supplieremail">Supplier Email</label>
                                                         <input type="text" id="supplieremail" class="form-control" name="supplieremail">
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                         </div>
 
                                     <h4 class="form-section"> Customer Information</h4>
@@ -92,7 +100,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label for="customeremail">Customer Address</label>
+                                                        <label for="customeremail">Customer Email</label>
                                                         <input type="text" id="customeremail" class="form-control" name="customeremail">
                                                     </div>
                                                 </div>
@@ -214,7 +222,7 @@
                                             <div class="col-md-6">
                                                     <div class="form-group">
                                                             <label for="dateoftransaction">Date of Transaction.</label>
-                                                            <input type="text" id="dateoftransaction" class="form-control" name="dateoftransaction">
+                                                            <input type="date" id="dateoftransaction" class="form-control" name="dateoftransaction">
                                                     </div>
                                             </div>
                                     </div>

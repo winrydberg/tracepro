@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; 
+use App\Transaction;
 
 class RetailStoreController extends Controller
 {
@@ -21,5 +22,10 @@ class RetailStoreController extends Controller
 
       public function transactions(){
         return view('retailstore.transactions');
+      }
+
+      public function approvals(){
+        $approvals = Transaction::where('customerbin','')->where('approvedbycustomer',0)->get();
+        return view('retailstore.approvals',compact('approvals'));
       }
 }

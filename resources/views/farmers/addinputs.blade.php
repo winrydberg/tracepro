@@ -23,13 +23,14 @@
                             <div class="card-text">
                                 <p>Use the form below to add inputs</p>
                             </div>
+                            <?php  $user = Session::get('outh');?>
                             <form class="form" id="{{ isset($data) ? 'updatefarminput' : 'farminputform'}}">
-                                    <input type="hidden" name='customerbin' value="A">
-                                    <input type="hidden" name='customername' value="B">
-                                    <input type="hidden" name='customercontact' value="C">
-                                    <input type="hidden" name='customeraddress' value="D">
-                                    <input type="hidden" name='customeremail' value="E">
-                                    <input type="hidden" name='customertype' value="F">
+                                  <input type="hidden" name='customerbin' value="{{$user->bin}}">
+                                    <input type="hidden" name='customername' value="{{$user->name}}">
+                                    <input type="hidden" name='customercontact' value="{{$user->phoneno}}">
+                                    <input type="hidden" name='customeraddress' value="{{$user->digital_address}}">
+                                    <input type="hidden" name='customeremail' value="{{$user->email}}">
+                                    <input type="hidden" name='customertype' value="GROWER">
                                     <input type="hidden" name='approvedbycustomer' value="1">
                                 {{csrf_field()}}
                                 <input type="hidden" name="idtoupdate" value="{{isset($data) ? $data->id : ''}}">
@@ -75,12 +76,12 @@
                                                         <label for="suppliertype">Supplier Type</label>
                                                         <select id="suppliertype" class="form-control" name="suppliertype">
                                                                 <option value="">Please select</option>
-                                                                <option value="Grower">I am Grower/Farmer</option>
-                                                                <option value="Packer">I am Produce Packer/Re-packer</option>
-                                                                <option value="Distributor">I am Distributor/Trader</option>
-                                                                <option value="Manufacturer">I am Manufacturer/Processor</option>
-                                                                <option value="Retail Store">I am Retail Store</option>
-                                                                <option value="Food Service Operator">I am Food Service Operator</option>
+                                                                <option value="Grower">Grower/Farmer</option>
+                                                                <option value="Packer">Produce Packer/Re-packer</option>
+                                                                <option value="Distributor">Distributor/Trader</option>
+                                                                <option value="Manufacturer">Manufacturer/Processor</option>
+                                                                <option value="Retail Store">Retail Store</option>
+                                                                <option value="Food Service Operator">Food Service Operator</option>
                                                                 <option value="Supplier of farm inputs">Supplier of farm inputs</option>
                                                                 <option value="Livestock Producer">Livestock Producer</option></select>
                                                     </div>
@@ -143,8 +144,8 @@
                                             </div>
                                             <div class="col-md-6">
                                                     <div class="form-group">
-                                                            <label for="productwheredelivered">Digital Addres of Where you Delivered product</label>
-                                                            <input type="text" id="productwheredelivered" class="form-control" name="productwheredelivered" value="{{isset($data) ? $data->productwheredelivered : ''}}">
+                                                            <label for="productswheredelivered">Digital Addres of Where you Delivered product</label>
+                                                            <input type="text" id="productswheredelivered" class="form-control" name="productswheredelivered" value="{{isset($data) ? $data->productswheredelivered : ''}}">
                                                     </div>
                                             </div>
                                         </div>

@@ -27,7 +27,7 @@
                     <div class="card-body">
                         <div class="card-text">
                         </div>
-                    <form class="form form-horizontal" method="POST" action="{{url('/farmers/addproduct')}}">
+                    <form class="form form-horizontal" method="POST" action="{{url('/farmers/addproduct')}}" id="addproductform">
                             {{csrf_field()}}
                             <div class="form-body">
 
@@ -87,7 +87,7 @@
                                 <div class="form-group row">
                                         <label class="col-md-3 label-control" for="farmlocation">Farm</label>
                                         <div class="col-md-6">
-                                                <select id="farmid" required name="farmid[]" multiple="multiple" class="form-control">
+                                                <select id="farmid" required name="farmid" class="form-control">
                                                         <option value="" selected="" disabled="">Select Source Farm</option>
                                                         @foreach($farms as $f)
                                                             <option value="{{$f->farmbin}}">{{$f->farmname}}</option>
@@ -118,10 +118,61 @@
             </div>
         </div>
     </div>  
+
+
+    {{-- modal here --}}
+    <div class="modal fade text-left" id="showqrcode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <label class="modal-title text-text-bold-600" id="myModalLabel33">Details</label>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:white">&times;</span>
+                  </button>
+                </div>
+                    <div class="modal-body">
+                      <div class="row" id="printout">
+                        <div class="col-sm-4">
+                        <img src="" alt="" id="qrcodebay" style="width:200px">
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-6" style="margin-top:20px">
+                         <table>
+                           <tbody id="body">
+                               <tr>
+                                   <td>Farm Name</td>
+                                    <td>{{Session::get('outh')->name}}</td>
+                               </tr>
+                               <tr>
+                                    <td>Product Name</td>
+                                    <td id="productname"></td>
+                                </tr>
+                                <tr>
+                                    <td>Product Batch</td>
+                                    <td id="productbatch"></td>
+                                </tr>
+                                   <tr>
+                                        <td>Farm</td>
+                                        <td id="farmdetails"></td>
+                                    </tr>
+
+                            </tbody> 
+                        </table>    
+                        </div>
+                      </div>
+                  <div class="modal-footer">
+                  <input type="reset" class="btn btn-danger" data-dismiss="modal" value="Cancel">
+                  <button class="btn btn-primary" id="print">Print</button>
+                  </div>
+              </div>
+            </div>
+          </div>
+    {{-- end of modal --}}
 @endsection
 @section('scripts-below')
   <script src="{{asset('assets/vendors/js/extensions/sweetalert.min.js')}}" type="text/javascript"></script>
   <script type="text/javascript">
+  //$('#showqrcode').modal('show');
   $('.delete').click(function(e){
         e.preventDefault();
      var id = $(this).attr('id');
@@ -150,6 +201,7 @@
             if (isConfirm) {
                 $.get("{{url('farmers/deletefarm')}}",{id:id},function(r){
                         if(r.status=='success'){
+                            
                             window.location.reload(true);
                         }
                 }).fail(function(){
@@ -161,4 +213,47 @@
         });
     });
   </script>
+  <script type="text/javascript">
+    $('#addproductform').submit(function(e){
+        e.preventDefault();
+        $('#loadinggif').show();
+        $.post($('#addproductform').attr('action'),$(this).serialize(),function(response){
+            $('#loadinggif').hide(); 
+          if(response.status==='success'){
+            $('#qrcodebay').attr('src',"{{url('/qrcodes')}}"+'/'+response.productidno+'.svg');
+            var dt = JSON.parse(response.data);
+            $('#productname').text(dt.productname)
+            $('#productbatch').text(dt.productbatchno)
+            $('#farmdetails').text(dt.farm)
+            $('#showqrcode').modal('show');
+           // swal("Success",'Transactions successfully recorded','success');
+          }else{
+            swal("Error",'Sorry.. Your Transactions could not be saved.. Please try again','error');
+          }
+        }).fail(function(){
+        $('#loadinggif').hide(); 
+        swal("Error",'Sorry.. Your Transactions could not be saved.. Please try again','error');
+        });
+    });
+</script>
+ <script type="text/javascript">
+    $('#print').on('click',function(){
+     let mywindow = window.open('', 'PRINT', 'height=650,width=900,top=100,left=150');
+         mywindow.document.write('<html><head><title>Print out</title>');
+         mywindow.document.write('<style type="text/css">@media print { .headback{background:#ddd;} }</style>');
+         //mywindow.document.write('<link rel="stylesheet" type="text/css" href="http://localhost/rework/ugpay/assets/css/vendors.css">');
+         mywindow.document.write('</head><body>');
+         mywindow.document.write(document.getElementById('printout').innerHTML);
+         mywindow.document.write('</body></html>');
+         mywindow.document.close(); // necessary for IE >= 10
+         mywindow.focus(); // necessary for IE >= 10*/
+         mywindow.print();
+          mywindow.close();
+   return true;
+ 
+ 
+    })
+  
+   </script>
+
 @endsection

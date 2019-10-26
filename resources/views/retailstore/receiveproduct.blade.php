@@ -23,7 +23,8 @@
                             <div class="card-text">
                                 <p>Use this form to receive a product</p>
                             </div>
-                            <form class="form">
+                            <form class="form" id="transactionform">
+                                {{csrf_field()}}
                                 <div class="form-body">
                                     <h4 class="form-section"> Supplier Information</h4>
                                     <div class="row">
@@ -55,8 +56,8 @@
                                             </div>
                                         </div>
 
-                                        <h4 class="form-section"> Customer Information</h4>
-                                    <div class="row">
+                                        {{-- <h4 class="form-section"> Customer Information</h4> --}}
+                                    <div class="row" style="display:none">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="customerbin">Customer BIN</label>
@@ -70,7 +71,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row" style="display:none">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="customercontact">Customer Contact Info</label>
@@ -110,12 +111,7 @@
                                                                 <input type="text" id="productgtin" class="form-control" name="productgtin">
                                                             </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                        <div class="form-group">
-                                                                <label for="productname">Product Name</label>
-                                                                <input type="text" id="productname" class="form-control" name="productname">
-                                                        </div>
-                                                </div>
+                                              
                                             </div>
                                        
                                         
@@ -152,21 +148,16 @@
                                         <div class="row">
                                                 <div class="col-md-6">
                                                         <div class="form-group">
-                                                                <label for="productaddressfrom">Address from where the good was delivered</label>
-                                                                <input type="text" id="productaddressfrom" class="form-control" name="productaddressfrom">
+                                                                <label for="productwherepurchased">Address from where the good was purchased</label>
+                                                                <input type="text" id="productwherepurchased" class="form-control" name="productwherepurchased">
                                                         </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                         <div class="form-group">
-                                                                <label for="productaddressto">Address of receiving location/trading partner</label>
-                                                                <input type="text" id="productaddressto" class="form-control" name="productaddressto">
+                                                                <label for="productswheredelivered">Address of receiving location/trading partner</label>
+                                                                <input type="text" id="productswheredelivered" class="form-control" name="productswheredelivered">
                                                         </div>
                                                 </div>
-                                            </div>
-
-                                        <div class="form-group">
-                                                <label for="productdescription">Product Description</label>
-                                                <textarea id="productdescription" rows="5" class="form-control" name="productdescription"></textarea>
                                             </div>
                                     
                                         <div class="form-group">
@@ -197,15 +188,15 @@
                                     <div class="row">
                                             <div class="col-md-6">
                                                     <div class="form-group">
-                                                            <label for="recepitno">Receipt No.</label>
-                                                            <input type="text" id="recepitno" class="form-control" name="recepitno">
+                                                            <label for="receiptno">Receipt No.</label>
+                                                            <input type="text" id="receiptno" class="form-control" name="receiptno">
                                                     </div>
                                             </div>
 
                                             <div class="col-md-6">
                                                     <div class="form-group">
-                                                            <label for="recepitdate">Receipt Date.</label>
-                                                            <input type="text" id="recepitdate" class="form-control" name="recepitdate">
+                                                            <label for="dateoftransaction">Date of transaction.</label>
+                                                            <input type="text" id="dateoftransaction" class="form-control" name="dateoftransaction">
                                                     </div>
                                             </div>
                                     </div>
@@ -244,4 +235,21 @@
 @endsection
 @section('scripts-below')
   <script src="{{asset('assets/vendors/js/extensions/sweetalert.min.js')}}" type="text/javascript"></script>
+  <script type="text/javascript">
+    $('#transactionform').submit(function(e){
+        e.preventDefault();
+        $('#loadinggif').show();
+        $.post('{{url('actors/recordtransactions')}}',$(this).serialize(),function(response){
+            $('#loadinggif').hide(); 
+          if(response.status==='success'){
+            swal("Success",'Transactions successfully recorded','success');
+          }else{
+            swal("Error",'Sorry.. Your Transactions could not be saved.. Please try again','error');
+          }
+        }).fail(function(){
+        $('#loadinggif').hide(); 
+        swal("Error",'Sorry.. Your Transactions could not be saved.. Please try again','error');
+        });
+    });
+</script>
 @endsection

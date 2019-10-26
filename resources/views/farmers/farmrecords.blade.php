@@ -28,7 +28,18 @@
                                 <div class="form-body">
                                     <h4 class="form-section"> Farm/Input Records</h4>
                                     <div class="row">
-                                        <div class="col-md-6">
+                                            <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="farmbin">Select Farm</label>
+                                                        <select id="farmbin" class="form-control" name="farmbin" required>
+                                                            <option value="">Please Select</option>
+                                                            @foreach($farms as $f)
+                                                        <option value="{{$f->farmbin}}">{{$f->farmname}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                        {{-- <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="farmbin">Farm BIN</label>
                                                 <input type="text" id="farmbin" class="form-control" name="farmbin">
@@ -39,19 +50,24 @@
                                                 <label for="farmname">Farm Name</label>
                                                 <input type="text" id="farmname" class="form-control"  name="farmname">
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="plotsapplied">Plots Applied on</label>
-                                                <input type="text" id="plotsapplied" class="form-control"  name="plotsapplied">
+                                                <select name="plotsapplied[]" id="plotsapplied" multiple="multiple" class="form-control">
+                                                    @foreach($plots as $p)
+                                                      <option value="{{$p->plotname}}">{{$p->plotname}}</option>
+                                                    @endforeach()
+                                                </select>
+                                                {{-- <input type="text" id="plotsapplied" class="form-control"  name="plotsapplied"> --}}
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="dateofapplication">Date Applied</label>
-                                                <input type="text" id="dateofapplication" class="form-control"  name="dateofapplication">
+                                                <input type="date" id="dateofapplication" class="form-control"  name="dateofapplication">
                                             </div>
                                         </div>
                                     </div>

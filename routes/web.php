@@ -10,12 +10,19 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/test',function(){
+ return QrCode::size(200)->format('png')->generate('Make me into a QrCode!');
+});
 Route::get('actors/login','ActorsController@login');
 Route::get('actors/logout','ActorsController@logout');
 Route::post('actors/authenticate','ActorsController@authenticate');
 Route::post('actors/recordtransactions','ActorsController@recordtransactions');
 Route::post('actors/updatetransactions','ActorsController@updatetransactions');
 Route::get('actors/getpendingtransactions/{bin}','ActorsController@getpendingtransactions');
+Route::post('actors/generateqrcode','ActorsController@generateqrcode');
+Route::get('actors/approvetransaction','ActorsController@approvetransaction');
+Route::post('actors/savecustomer','ActorsController@savecustomer');
 
 
 
@@ -42,6 +49,13 @@ Route::group(['prefix'=>'farmers'],function(){
 
     Route::get('/profile','FarmersController@profile');
     Route::get('/transactions','FarmersController@transactions');
+
+    Route::get('/createcustomer','FarmersController@createcustomer');
+    Route::get('/customerlist','FarmersController@customerlist');
+    Route::post('/savecustomer','FarmersController@savecustomer');
+
+    Route::get('/approvals','FarmersController@approvals');
+    
     Route::get('/transactions','FarmersController@transactions');
     Route::post('/addproduct', 'FarmersController@saveProducts');
     Route::get('/addproduct', 'FarmersController@newproducts');
@@ -57,6 +71,7 @@ Route::group(['prefix'=>'foodservice'],function(){
     Route::get('/history','FoodServiceController@history');
     Route::get('/approvals','FoodServiceController@approvals');
     Route::get('/approveorder','FoodServiceController@approveorder');
+
 });
 
 Route::group(['prefix'=>'packer'],function(){
@@ -70,9 +85,13 @@ Route::group(['prefix'=>'packer'],function(){
     Route::get('/createproducts','PackerController@createproducts');
     Route::get('/createsuppliers','PackerController@createsuppliers');
 
+<<<<<<< HEAD
     Route::post('/addproduct', 'PackerController@saveProducts');
     Route::get('/addproduct', 'PackerController@newproducts');
     Route::get('/productlist', 'PackerController@getProducts');
+=======
+    Route::get('/approvals','FoodServiceController@approvals');
+>>>>>>> 9d8fb2147de60ac872f4aee070e8379db6706b40
 });
 
 Route::group(['prefix'=>'retailstore'],function(){
@@ -80,6 +99,8 @@ Route::group(['prefix'=>'retailstore'],function(){
     Route::get('/profile','RetailStoreController@profile');
     Route::get('/receiveproduct','RetailStoreController@receiveproduct');
     Route::get('/transactions','RetailStoreController@transactions');
+    Route::get('/approvals','RetailStoreController@approvals');
+    Route::get('/addproduct','RetailsStoreController@addproduct');
 });
 
 Route::group(['prefix'=>'manufacturer'],function(){
@@ -96,7 +117,7 @@ Route::group(['prefix'=>'manufacturer'],function(){
 Route::get('regulator/login', 'Regulators\RegulatoryController@login')->name('login');
 Route::post('regulator/login', 'Regulators\RegulatoryController@loginAdmin');
 
-// Route::group(['middleware' => ['auth:regulator']], function () {
+//Route::group(['middleware' => ['auth:regulator']], function () {
     Route::get('regulator/dashboard', 'Regulators\RegulatoryController@index');
     Route::get('regulator/new-actor', 'Regulators\RegulatoryController@newActor');
     Route::post('regulator/new-actor', 'Regulators\RegulatoryController@registerActor');
@@ -108,7 +129,7 @@ Route::post('regulator/login', 'Regulators\RegulatoryController@loginAdmin');
     Route::get('actor/reset-password', 'Regulators\RegulatoryController@resetPassword');
     Route::post('actor/reset-password', 'Regulators\RegulatoryController@saveNewPassword');
     Route::get('regulator/logout', 'Regulators\RegulatoryController@logout');
-// });
+//});
 
 
 //===================================================================================
