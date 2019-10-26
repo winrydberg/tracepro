@@ -82,15 +82,7 @@ class ActorsController extends Controller
     public function recordtransactions(Request $r){
         $add = Transaction::create($r->all());
         $authuser = Session::get('outh');
-        if($add){
-            $add->update([
-                'customerbin'=>$authuser->bin,
-                'customername' =>$authuser->name,
-                'customercontact'=> $authuser->phoneno ,
-                'customeraddress' => $authuser->digital_address,
-                'customeremail' => $authuser->email,
-                'customertype' =>$authuser->actortype,
-            ]);
+        if($add){     
             return ['status'=>'success'];
         }else{
             return ['status'=>'error'];

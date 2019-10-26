@@ -7,7 +7,7 @@
         <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title" id="basic-layout-form">RECEIVE A PRODUCT</h4>
+                        <h4 class="card-title" id="basic-layout-form">RECEIVE/REQUEST A PRODUCT</h4>
                         <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                         <div class="heading-elements">
                             <ul class="list-inline mb-0">
@@ -23,8 +23,18 @@
                             <div class="card-text">
                                 <p>Use this form to receive a product</p>
                             </div>
-                            <form class="form">
+                            <?php $user = Session::get('outh'); ?>
+                            <form class="form" id="mpdrequestform" method="POST">
+                                {{csrf_field()}}
                                 <div class="form-body">
+                                        <input type="hidden" name='customerbin' value="{{$user->bin}}">
+                                        <input type="hidden" name='customername' value="{{$user->name}}">
+                                        <input type="hidden" name='customercontact' value="{{$user->phoneno}}">
+                                        <input type="hidden" name='customeraddress' value="{{$user->digital_address}}">
+                                        <input type="hidden" name='customeremail' value="{{$user->email}}">
+                                        <input type="hidden" name='customertype' value="{{$user->actortype}}">
+                                        <input type="hidden" name='approvedbycustomer' value="1">
+                                    {{csrf_field()}}
                                     <h4 class="form-section"> Supplier Information</h4>
                                     <div class="row">
                                             <div class="col-md-6">
@@ -55,7 +65,7 @@
                                             </div>
                                         </div>
 
-                                        <h4 class="form-section"> Customer Information</h4>
+                                        {{-- <h4 class="form-section"> Customer Information</h4>
                                     <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -83,7 +93,7 @@
                                                     <input type="text" id="customeraddress" class="form-control" name="customeraddress">
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
 
                                    
 
@@ -242,6 +252,27 @@
             </div>
 </div>
 @endsection
+
+
+
 @section('scripts-below')
   <script src="{{asset('assets/vendors/js/extensions/sweetalert.min.js')}}" type="text/javascript"></script>
+  <script type="text/javascript">
+    $('#mpdrequestform').submit(function(e){
+        e.preventDefault();
+        $('#loadinggif').show();
+        $.post('{{url('actors/recordtransactions')}}',$(this).serialize(),function(response){
+            $('#loadinggif').hide(); 
+          if(response.status==='success'){
+            swal("Success",'Transactions successfully recorded','success');
+          }else{
+            swal("Error",'Sorry.. Your Transactions could not be saved.. Please try again','error');
+          }
+        }).fail(function(){
+        $('#loadinggif').hide(); 
+        swal("Error",'Sorry.. Your Transactions could not be saved.. Please try again','error');
+        });
+    });
+</script>
+
 @endsection

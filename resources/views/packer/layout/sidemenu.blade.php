@@ -14,13 +14,6 @@
             </ul>
           </li>
 
-        <li class=" nav-item"><a href="#"><i class="ft-list"></i><span data-i18n="" class="menu-title">RECALL</span><span class="badge badge badge-primary badge-pill float-right mr-2"></span></a>
-            <ul class="menu-content">
-              <li class=""><a href="#" class="menu-item">Submit a recall</a> </li>
-              <li><a href="#" class="menu-item">history</a></li>
-              </li>
-            </ul>
-          </li>
 
           <li class=" nav-item"><a href="#"><i class="ft-list"></i><span data-i18n="" class="menu-title">MY SUPPLIERS</span><span class="badge badge badge-primary badge-pill float-right mr-2"></span></a>
             <ul class="menu-content">
@@ -42,6 +35,14 @@
             <ul class="menu-content">
               <li class=""><a href="#" class="menu-item">Create</a> </li>
               <li><a href="#" class="menu-item">List</a></li>
+              </li>
+            </ul>
+          </li>
+
+          <li class=" nav-item"><a href="#"><i class="ft-list"></i><span data-i18n="" class="menu-title">RECALL</span><span class="badge badge badge-primary badge-pill float-right mr-2"></span></a>
+            <ul class="menu-content">
+              <li class=""><a href="#" class="menu-item">Submit a recall</a> </li>
+              <li><a href="#" class="menu-item">history</a></li>
               </li>
             </ul>
           </li>
