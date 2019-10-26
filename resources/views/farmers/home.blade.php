@@ -89,8 +89,9 @@
                         <img src="{{asset('assets/images/profile.png')}}" class="rounded-circle  height-150" alt="Card image">
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">Ernest Here</h4>
-                        <h6 class="card-subtitle text-muted">Phone here</h6><br>
+                        <?php  $user = Session::get('outh');?>
+                    <h4 class="card-title">{{$user->name}}</h4>
+                        {{-- <h6 class="card-subtitle text-muted">Phone here</h6><br> --}}
                     </div>
                 </div>
             </div>
@@ -106,8 +107,20 @@
                                 <table class="table">
                                         <tr>
                                                <th>Name</th>
-                                               <td>Ernest</td>
+                                               <td>{{$user->name}}</td>
                                            </tr>
+                                           <tr>
+                                                <th>Phone</th>
+                                                <td>{{$user->phoneno}}</td>
+                                            </tr>
+                                            <tr>
+                                                    <th>Email</th>
+                                                    <td>{{$user->email}}</td>
+                                            </tr>
+                                            <tr>
+                                                    <th>Digital Address</th>
+                                                    <td>{{$user->digital_address}}</td>
+                                            </tr>
                                           
                                    </table>
 
