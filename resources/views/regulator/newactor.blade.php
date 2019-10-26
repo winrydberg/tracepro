@@ -71,7 +71,7 @@
                                                 <option value="PACKER">PACKER</option>
                                                 <option value="DISTRIBUTOR">DISTRIBUTOR</option>
                                                 <option value="MANUFACTURER">MANUFACTURER</option>
-                                                <option value="FSO">FOOD SERVICE OPERATOR</option>
+                                                <option value="RETAILSTORE">RETAIL STORE</option>
                                             </select>
                                         </div>
                                     </div>

@@ -86,7 +86,12 @@ Route::group(['prefix'=>'packer'],function(){
     Route::get('/createproducts','PackerController@createproducts');
     Route::get('/createsuppliers','PackerController@createsuppliers');
 
+    Route::post('/addproduct', 'PackerController@saveProducts');
+    Route::get('/addproduct', 'PackerController@newproducts');
+    Route::get('/productlist', 'PackerController@getProducts');
     Route::get('/approvals','FoodServiceController@approvals');
+    Route::get('/pending-transactions/{bin}','PackerController@getPendingTransactions');
+
 });
 
 Route::group(['prefix'=>'retailstore'],function(){

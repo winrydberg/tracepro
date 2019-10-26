@@ -23,37 +23,18 @@
                             <div class="card-text">
                                 <p>Add a transaction</p>
                             </div>
-                            <form class="form">
-                                <div class="form-body">
-                                    <h4 class="form-section"> Packer/Re-packer’s Information</h4>
-                                    <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="packerbin">Packer/Re-packer’s BIN</label>
-                                                    <input type="text" id="packerbin" class="form-control"  name="packerbin">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="packername">Packer/Re-packer’s Name</label>
-                                                    <input type="text" id="packername" class="form-control" name="packername">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="packercontact">Packer/Re-packer’s Contact Info</label>
-                                                    <input type="text" id="packercontact" class="form-control" name="packercontact">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="packeraddress">Packer/Re-packer’s Address</label>
-                                                    <input type="text" id="packeraddress" class="form-control" name="packeraddress">
-                                                </div>
-                                            </div>
-                                        </div>
+                            <form class="form" id="mpdform" method="POST">
+                                {{csrf_field()}}
+                                <?php $user = Session::get('outh')?>
+                                <div class="form-body" id="mpdform">
+                                    {{-- <h4 class="form-section"> Supplier Information</h4> --}}
+                                    <input type="hidden" name='supplierbin' value="{{$user->bin}}">
+                                    <input type="hidden" name='suppliername' value="{{$user->name}}">
+                                    <input type="hidden" name='suppliercontact' value="{{$user->phoneno}}">
+                                    <input type="hidden" name='supplieraddress' value="{{$user->digital_address}}">
+                                    <input type="hidden" name='supplieremail' value="{{$user->email}}">
+                                    <input type="hidden" name='suppliertype' value="{{$user->actortype}}">
+                                    <input type="hidden" name='approvedbysupplier' value="1">
 
                                     <h4 class="form-section"> Customer Information</h4>
                                     <div class="row">
@@ -215,6 +196,25 @@
             </div>
 </div>
 @endsection
+
 @section('scripts-below')
   <script src="{{asset('assets/vendors/js/extensions/sweetalert.min.js')}}" type="text/javascript"></script>
+  <script type="text/javascript">
+    $('#mpdform').submit(function(e){
+        e.preventDefault();
+        $('#loadinggif').show();
+        $.post('{{url('actors/recordtransactions')}}',$(this).serialize(),function(response){
+            $('#loadinggif').hide(); 
+          if(response.status==='success'){
+            swal("Success",'Transactions successfully recorded','success');
+          }else{
+            swal("Error",'Sorry.. Your Transactions could not be saved.. Please try again','error');
+          }
+        }).fail(function(){
+        $('#loadinggif').hide(); 
+        swal("Error",'Sorry.. Your Transactions could not be saved.. Please try again','error');
+        });
+    });
+</script>
+
 @endsection

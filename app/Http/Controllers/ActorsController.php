@@ -108,7 +108,7 @@ class ActorsController extends Controller
     public function recordtransactions(Request $r){
         $add = Transaction::create($r->all());
         $authuser = Session::get('outh');
-        if($add){
+        if($add){     
             return ['status'=>'success'];
         }else{
             return ['status'=>'error'];
